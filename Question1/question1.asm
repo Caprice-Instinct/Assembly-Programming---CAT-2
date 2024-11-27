@@ -72,3 +72,26 @@ _start:
     mov eax, 1              ; syscall for exit
     xor ebx, ebx            ; set exit code to 0
     int 0x80                ; invoke syscall to exit program
+
+
+; Documentation:
+
+; 1. **Zero Check:**
+;    - **Instruction**: `cmp dword [num], 0`, `je .is_zero`
+;    - **Reason**: The `je` (jump if equal) instruction is used here to directly jump to the `.is_zero` label if the number is zero, ensuring that the program immediately handles the "ZERO" case without checking for positive or negative values.
+
+; 2. **Positive Check:**
+;    - **Instruction**: `cmp dword [num], 0`, `jg .is_positive`
+;    - **Reason**: The `jg` (jump if greater) instruction allows the program to jump directly to the `.is_positive` label if the number is positive (greater than zero). This prevents unnecessary checks and handles positive values quickly.
+
+; 3. **Handling Negative Values:**
+;    - **Instruction**: `mov ecx, negative`, `jmp .print`
+;    - **Reason**: The `jmp` (unconditional jump) instruction is used to bypass further checks and directly jump to the `.print` section, outputting the "NEGATIVE" message when the number is neither zero nor positive.
+
+; 4. **Handling Zero:**
+;    - **Instruction**: `mov ecx, zero`, `jmp .print`
+;    - **Reason**: Similarly, the `jmp` instruction is used to directly jump to the `.print` section once the zero case is handled, ensuring no unnecessary checks are performed once the number is determined to be zero.
+
+; 5. **Handling Positive:**
+;    - **Instruction**: `mov ecx, positive`
+;    - **Reason**: Once the positive check is satisfied, the program immediately sets `ecx` to the "POSITIVE" message and proceeds to print it, as no further jumps are needed.
